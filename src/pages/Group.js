@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Store } from 'react-notifications-component'
 import { nanoid } from 'nanoid'
 import __cities from './CityData';
 const electron = window.require('electron');
@@ -38,6 +38,18 @@ const Group = () => {
 
     const handleResetReq = (_phone) => {
         electron.ipcRenderer.send('reset:phone', _phone);
+        Store.addNotification({
+            message: "عملیات موفق",
+            type: "success",
+            insert: "center",
+            container: "center",
+            animationIn: ["animate__animated", "animate__fadeIn"],
+            animationOut: ["animate__animated", "animate__fadeOut"],
+            dismiss: {
+                duration: 5000,
+                onScreen: true
+            }
+        });
     }
 
     const addPhone = () => {
@@ -52,11 +64,35 @@ const Group = () => {
         };
         electron.ipcRenderer.send('add:phone', _phone);
         electron.ipcRenderer.send('get:phones');
+        Store.addNotification({
+            message: "عملیات موفق",
+            type: "success",
+            insert: "center",
+            container: "center",
+            animationIn: ["animate__animated", "animate__fadeIn"],
+            animationOut: ["animate__animated", "animate__fadeOut"],
+            dismiss: {
+                duration: 5000,
+                onScreen: true
+            }
+        });
     };
 
     const deletePhone = (_phone) => {
         electron.ipcRenderer.send('delete:phone', _phone);
         electron.ipcRenderer.send('get:phones');
+        Store.addNotification({
+            message: "عملیات موفق",
+            type: "success",
+            insert: "center",
+            container: "center",
+            animationIn: ["animate__animated", "animate__fadeIn"],
+            animationOut: ["animate__animated", "animate__fadeOut"],
+            dismiss: {
+                duration: 5000,
+                onScreen: true
+            }
+        });
     }
 
     const loginPhone = (_phone) => {

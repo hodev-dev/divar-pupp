@@ -8,7 +8,9 @@ const Setting = () => {
         retry: 3,
         contactButtonXPath: '/html/body/div/div[1]/div/div[1]/div[2]/button[1',
         contactButtonWait: 0,
-        contactButtonConfirmCssSelector: '.test'
+        contactButtonConfirmCssSelector: '.test',
+        name: "test",
+        server: 'http://185.110.191.30/admin/public'
     });
 
 
@@ -33,6 +35,18 @@ const Setting = () => {
             <div className='flex flex-row items-center justify-start w-full h-16 p-4 text-gray-300 shadow bg-zinc-700' dir='rtl'>
                 <button onClick={handleSaveConfig} className='flex items-center justify-center w-2/12 h-12 ml-5 text-center text-gray-300 bg-indigo-900 border border-zinc-800' >ورود تنظیمات</button>
                 <button onClick={handleSaveConfig} className='flex items-center justify-center w-2/12 h-12 ml-5 text-center text-gray-300 bg-green-900 border border-zinc-800' >ذخیره تنظیمات</button>
+            </div>
+            <div className='flex flex-row items-center justify-end w-full h-16 p-4 text-gray-300'>
+                <h1 className='flex items-center justify-end w-full h-16 text-gray-300'>نام سیستم</h1>
+            </div>
+            <div className='flex flex-row items-center justify-end w-full h-16 p-4 text-gray-300 shadow bg-zinc-700'>
+                <input onChange={handleSetConfig} value={config.name} name={'name'} className='flex items-center justify-end w-6/12 h-12 text-center text-gray-300 border border-zinc-900 bg-zinc-800' />
+            </div>
+            <div className='flex flex-row items-center justify-end w-full h-16 p-4 text-gray-300'>
+                <h1 className='flex items-center justify-end w-full h-16 text-gray-300'>ادرس سرور</h1>
+            </div>
+            <div className='flex flex-row items-center justify-end w-full h-16 p-4 text-gray-300 shadow bg-zinc-700'>
+                <input onChange={handleSetConfig} value={config.server} name={'server'} className='flex items-center justify-end w-6/12 h-12 text-center text-gray-300 border border-zinc-900 bg-zinc-800' />
             </div>
             <div className='flex flex-row items-center justify-end w-full h-16 p-4 text-gray-300'>
                 <h1 className='flex items-center justify-end w-full h-16 text-gray-300'>وقفه بین هر درخواست</h1>

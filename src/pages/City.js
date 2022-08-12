@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
-import { nanoid } from 'nanoid'
+import { Store } from 'react-notifications-component';
 import __cities from './CityData';
 const electron = window.require('electron');
 
@@ -36,14 +35,6 @@ const City = () => {
         });
     }, []);
 
-    const handleGroup = (e) => {
-        setGroup(e.target.value);
-    }
-
-    const handleGroupNumber = (e) => {
-        setNumber(e.target.value);
-    }
-
     const handleResetReq = (_phone) => {
         electron.ipcRenderer.send('reset:phone', _phone);
     }
@@ -65,44 +56,35 @@ const City = () => {
         const getCity = getProvince.children.find((_city) => _city.id == selectedCity);
         const payload = { ...getCity, count: count };
         electron.ipcRenderer.send('add:city', payload);
+        Store.addNotification({
+            message: "عملیات موفق",
+            type: "success",
+            insert: "center",
+            container: "center",
+            animationIn: ["animate__animated", "animate__fadeIn"],
+            animationOut: ["animate__animated", "animate__fadeOut"],
+            dismiss: {
+                duration: 5000,
+                onScreen: true
+            }
+        });
     }
 
     const deleteCity = (_city) => {
         electron.ipcRenderer.send('delete:city', _city);
+        Store.addNotification({
+            message: "عملیات موفق",
+            type: "success",
+            insert: "center",
+            container: "center",
+            animationIn: ["animate__animated", "animate__fadeIn"],
+            animationOut: ["animate__animated", "animate__fadeOut"],
+            dismiss: {
+                duration: 5000,
+                onScreen: true
+            }
+        });
     }
-
-    const addPhone = () => {
-        const _phone = {
-            id: nanoid(),
-            number: number,
-            group: group,
-            isActive: false,
-            activateTime: Date.now(),
-            req: 0,
-            time: ''
-        };
-        electron.ipcRenderer.send('add:phone', _phone);
-        electron.ipcRenderer.send('get:phones');
-    };
-
-    const deletePhone = (_phone) => {
-        electron.ipcRenderer.send('delete:phone', _phone);
-        electron.ipcRenderer.send('get:phones');
-    }
-
-    const loginPhone = (_phone) => {
-        electron.ipcRenderer.send('login:phone', group, _phone);
-    }
-
-    const renderGroups = () => {
-        return groups.map((group) => {
-            return (
-                <option key={group} value={group} className='flex w-full h-auto p-4 border border-zinc-900 bg-zinc-800'>
-                    {group}
-                </option>
-            )
-        })
-    };
 
     const renderProvinceOptions = () => {
         return __cities.map((_city) => {
@@ -124,39 +106,6 @@ const City = () => {
                     </option>
                 )
             }
-        });
-    }
-
-    const renderPhones = () => {
-        return phones && Object.keys(phones).map((key) => {
-            return (
-                <div key={phones[key].number} className='flex items-center justify-between w-full h-16 p-4 border divide-x-2 border-zinc-900 bg-zinc-800'>
-                    <div className='w-4/12 text-center'>
-                        {phones[key].id}
-                    </div>
-                    <div className='w-3/12 text-center'>
-                        {phones[key].number}
-                    </div>
-                    <div className='w-2/12 text-center '>
-                        {phones[key].group}
-                    </div>
-                    <div className='w-2/12 text-center '>
-                        {phones[key].req}
-                    </div>
-                    <div className='w-4/12 text-center '>
-                        {(phones[key].isActive) ? "فعال" : 'غیره فعال'}
-                    </div>
-                    <div onClick={() => handleResetReq(phones[key])} className='w-4/12 text-center text-blue-700 cursor-pointer'>
-                        {'ریست'}
-                    </div>
-                    <div onClick={() => loginPhone(phones[key])} className='w-4/12 text-center text-blue-700 cursor-pointer'>
-                        {'ورود به حساب'}
-                    </div>
-                    <div onClick={() => deletePhone(phones[key])} className='w-4/12 text-center text-red-700 cursor-pointer'>
-                        {'حذف'}
-                    </div>
-                </div>
-            )
         });
     }
 
@@ -188,7 +137,7 @@ const City = () => {
     return (
         <div className='w-full h-auto min-h-screen gap-5 bg-zinc-800' dir='rtl'>
             <div className='flex items-center w-full h-16 gap-5 border border-zinc-900 bg-zinc-700'>
-                <input onChange={handleSetCount} placeholder="تعداد" className='flex items-center justify-center w-2/12 h-12 p-2 mr-5 text-black text-white border rounded border-zinc-900 bg-zinc-800 placeholder:text-center' />
+                <input onChange={handleSetCount} placeholder="تعداد" className='flex items-center justify-center w-2/12 h-12 p-2 mr-5 text-white border rounded border-zinc-900 bg-zinc-800 placeholder:text-center' />
                 <select onChange={handleSelectedProvince} className='flex items-center w-2/12 h-12 text-center text-gray-300 border border-zinc-900 bg-zinc-800'>
                     {renderProvinceOptions()}
                 </select>

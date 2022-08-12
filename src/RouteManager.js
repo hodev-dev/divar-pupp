@@ -11,7 +11,7 @@ function RouteManager() {
     <div className='flex flex-row w-full h-auto min-h-screen bg-zin-800 outline-blue-700'>
       <Sidebar />
       <Routes>
-        <Route path="/scrape" element={<Scrape />} />
+        <Route path="/" element={<Scrape />} />
         <Route path="/groups" element={<Group />} />
         <Route path="/city" element={<City />} />
         <Route path="/setting" element={<Setting />} />

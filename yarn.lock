@@ -3158,7 +3158,7 @@
   dependencies:
     "bluebird" "^3.5.5"
 
-"bluebird@^3.5.0", "bluebird@^3.5.5":
+"bluebird@^3.5.0", "bluebird@^3.5.5", "bluebird@^3.7.2":
   "integrity" "sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg=="
   "resolved" "https://registry.npmjs.org/bluebird/-/bluebird-3.7.2.tgz"
   "version" "3.7.2"
@@ -3589,6 +3589,13 @@
   "integrity" "sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA=="
   "resolved" "https://registry.npmjs.org/charenc/-/charenc-0.0.2.tgz"
   "version" "0.0.2"
+
+"check-internet-connected@^2.0.6":
+  "integrity" "sha512-ZoU3ovnutroET6nWLp7zt7Er03aLQc4VqMZEBEuWhU/uI8B1x8j3v3rFcufEugNXUxZ7SPF4eMCufJ3vY7Ha2A=="
+  "resolved" "https://registry.npmjs.org/check-internet-connected/-/check-internet-connected-2.0.6.tgz"
+  "version" "2.0.6"
+  dependencies:
+    "bluebird" "^3.7.2"
 
 "check-types@^11.1.1":
   "integrity" "sha512-tzWzvgePgLORb9/3a0YenggReLKAIb2owL03H2Xdoe5pKcUyWRSEQ8xfCar8t2SIAuEDwtmx2da1YB52YuHQMQ=="
@@ -9525,6 +9532,11 @@
   "version" "7.0.0-beta.13"
   dependencies:
     "clsx" "^1.1.1"
+
+"react-detect-offline@^2.4.5":
+  "integrity" "sha512-sI13NPEKl3uQp95FT5CwrYzH3DnXCwNP6TnY6NRF5gFDM4NU9KDlbtA6HG2dwhDVS0RYQGXwZW/mHbdf8fCnaw=="
+  "resolved" "https://registry.npmjs.org/react-detect-offline/-/react-detect-offline-2.4.5.tgz"
+  "version" "2.4.5"
 
 "react-dev-utils@^12.0.0":
   "integrity" "sha512-84Ivxmr17KjUupyqzFode6xKhjwuEJDROWKJy/BthkL7Wn6NJ8h4WE6k/exAv6ImS+0oZLRRW5j/aINMHyeGeQ=="

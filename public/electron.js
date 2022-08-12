@@ -11,6 +11,8 @@ const Store = require('electron-store');
 const Divar = require('./providers/Divar');
 const Collection = require('./providers/Collection');
 const Logger = require('./providers/Logger');
+const axios = require('axios');
+const persianDate = require('persian-date');
 
 const fsPromises = fs.promises;
 ipc = electron.ipcMain;
@@ -296,9 +298,10 @@ electron.ipcMain.on('get:post', async (event, selectedGroup) => {
         let config = store.get('config');
         event.sender.send('worker:status', { state: true, msg: 'شروع عملیات', page: '0', index: '0', id: '0' });
         const job = setInterval(async () => {
+            Logger.logToFile('run worker');
             store.set('worker', { state: true, state: true, msg: 'شروع دریافت اطلاعات', page: '0', index: '0', id: '0' });
             event.sender.send('worker:timer', Date.now());
-            var contact = { phone: '' };
+            var contact = Object.create({ phone: '' });
             var posts = store.get('posts');
             var phones = store.get('phones');
             var config = store.get('config');
@@ -322,6 +325,23 @@ electron.ipcMain.on('get:post', async (event, selectedGroup) => {
                     await Divar.posts.confirmContactButtonClick(page, config);
                     Collection.increasePhoneReqCount(store, phones, phone);
                     Collection.makePostDone(store, posts, post);
+                    await axios.post(config.server + '/api/phone', {
+                        system: config.name,
+                        title: '',
+                        did: post.id,
+                        phone: contact.phone,
+                        page: post.page,
+                        index: post.index,
+                        city: post.city,
+                        district: '',
+                        category: 'استخدام و کاریابی',
+                        data: new persianDate().toLocale('en').format().toString(),
+                        stamps: new persianDate().unix().toString(),
+                        jwt: phone.number,
+                        from: phone.number,
+                        req: phone.req,
+                        last: ''
+                    });
                     Logger.logToFile(post.page + ',' + post.index + ',' + post.id + ',' + contact.phone + ',' + post.city, + ',' + 'Done');
                     event.sender.send('get:phones', phones);
                     event.sender.send('worker:status', { state: true, msg: contact.phone + '-' + 'انتظار اگهی بعدی', ...post });
