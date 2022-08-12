@@ -298,7 +298,6 @@ electron.ipcMain.on('get:post', async (event, selectedGroup) => {
         let config = store.get('config');
         event.sender.send('worker:status', { state: true, msg: 'شروع عملیات', page: '0', index: '0', id: '0' });
         const job = setInterval(async () => {
-            Logger.logToFile('run worker');
             store.set('worker', { state: true, state: true, msg: 'شروع دریافت اطلاعات', page: '0', index: '0', id: '0' });
             event.sender.send('worker:timer', Date.now());
             var contact = Object.create({ phone: '' });
@@ -354,6 +353,13 @@ electron.ipcMain.on('get:post', async (event, selectedGroup) => {
                     event.sender.send('worker:status', { state: true, msg: 'خطا', ...post });
                     Logger.logToFile(post.page + ',' + post.index + ',' + post.id + ',' + contact.phone + ',' + post.city + ',' + error.toString());
                     await browser.close();
+                    await axios.post(config.server + '/api/report', {
+                        system: config.name,
+                        page: post.page,
+                        index: post.index,
+                        msg: error.toString() + ' ' + post.id,
+                        time: new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds().toString()
+                    });
                 }
             } else {
                 event.sender.send('worker:status', { state: true, msg: 'ظرفیت تکمیل است', page: '0', index: '0', id: '0' });
@@ -365,7 +371,7 @@ electron.ipcMain.on('get:post', async (event, selectedGroup) => {
                     var store = new Store();
                     store.set('worker', { state: false });
                     event.sender.send('worker:status', { state: false });
-                }, 1000);
+                }, 10);
             }
         }, config.delay ? config.delay : 20000);
         worker.push(job);

@@ -17,7 +17,6 @@ const Scrape = () => {
     const [notDone, setNotDone] = useState(0);
     const [worker, setWorker] = useState({});
     const [timer, setTimer] = useState(Date.now());
-    const [isConnect, setIsConnect] = useState(true);
 
     useEffect(() => {
         electron.ipcRenderer.send('get:config');
@@ -44,9 +43,9 @@ const Scrape = () => {
         });
         electron.ipcRenderer.on('get:posts', (event, _posts) => {
             setPosts(_posts);
-            const _done = _posts.filter(post => post.isDone);
-            setDone(_done.length);
-            setNotDone(_posts.length - _done.length);
+            const _done = _posts && _posts.filter(post => post.isDone);
+            setDone(_done?.length);
+            setNotDone(_posts?.length - _done?.length);
         });
         electron.ipcRenderer.on('get:phones', (event, _phones) => {
             setPhones(_phones);
@@ -93,7 +92,7 @@ const Scrape = () => {
     }
 
     const renderPosts = () => {
-        if (posts.length > 0) {
+        if (posts && posts?.length > 0) {
             return posts.filter((post) => !post.isDone).slice(0, 3).map((post, index) => {
                 return (
                     <div key={post.id} className='flex flex-row flex-wrap items-center cursor-pointer w-full h-auto min-h-[4rem] text-gray-300 border divide-x-2 border-zinc-900 bg-zinc-700 divide-zinc-700 bg-zinc-800 hover:bg-red-900' dir='rtl'>
@@ -115,7 +114,7 @@ const Scrape = () => {
     }
 
     const renderPhones = () => {
-        if (phones.length > 0) {
+        if (phones && phones?.length > 0) {
             return phones.filter((phone) => phone.group == selectedGroup).map((post, index) => {
                 return (
                     <div key={post.id} className='flex flex-row flex-wrap items-center w-full h-[4rem] text-gray-300 bg-zinc-700' dir='rtl'>
@@ -129,7 +128,7 @@ const Scrape = () => {
             });
         } else {
             return (
-                <div className='flex flex-row flex-wrap items-center w-full h-auto min-h-[4rem] text-gray-300 border divide-x-2 border-zinc-900 bg-zinc-800 divide-zinc-700 bg-zinc-800' >
+                <div className='flex flex-row flex-wrap items-center justify-center w-full h-auto min-h-[4rem] text-gray-300 border divide-x-2 border-zinc-900 bg-zinc-700 divide-zinc-700' >
                     رکوردی وجود ندارد
                 </div>
             )
@@ -184,9 +183,9 @@ const Scrape = () => {
                     <div className='flex items-center justify-center w-1/6 text-center'>{'تعداد کل'}</div>
                 </div>
                 <div className='flex flex-row flex-wrap items-center w-full h-auto min-h-[4rem] text-gray-300 border divide-x-2 border-zinc-900 bg-zinc-700 divide-zinc-700 ' dir='rtl'>
-                    <div className='flex items-center justify-center w-1/6 text-center'>{done}</div>
-                    <div className='flex items-center justify-center w-1/6 text-center'>{notDone}</div>
-                    <div className='flex items-center justify-center w-1/6 text-center'>{posts && posts.length}</div>
+                    <div className='flex items-center justify-center w-1/6 text-center'>{done || 0}</div>
+                    <div className='flex items-center justify-center w-1/6 text-center'>{notDone || 0}</div>
+                    <div className='flex items-center justify-center w-1/6 text-center'>{posts && posts?.length || 0}</div>
                 </div>
             </div>
             <div className='flex flex-wrap items-center w-full h-auto divide-y-2 divide-zinc-900'>

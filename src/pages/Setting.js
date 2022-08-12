@@ -8,7 +8,7 @@ const Setting = () => {
         retry: 3,
         contactButtonXPath: '/html/body/div/div[1]/div/div[1]/div[2]/button[1',
         contactButtonWait: 0,
-        contactButtonConfirmCssSelector: '.test',
+        contactButtonConfirmCssSelector: '.post-statement',
         name: "test",
         server: 'http://185.110.191.30/admin/public'
     });

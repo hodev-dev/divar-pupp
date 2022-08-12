@@ -6,7 +6,7 @@ const Logger = {
     logToFile: async (data) => {
         try {
             const desktopDir = path.join(os.homedir(), "Desktop");
-            await fs.appendFile(path.join(desktopDir, 'phones.csv'), data + '\r\n', 'utf8');
+            await fs.appendFile(path.join(desktopDir, 'گزارش.csv'), data + '\r\n', 'utf8');
         } catch (error) {
             console.log(error);
         }
